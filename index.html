@@ -3,155 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
+    <title>Join The Chubby Tuck Shop Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --chubby-blue: #009dff;
+            --chubby-yellow: #ffde00;
+            --chubby-red: #e62325;
+            --chubby-green: #29b44a;
+            --chubby-white: #ffffff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Varela Round', sans-serif;
+            background-color: var(--chubby-blue);
+            background-image: radial-gradient(circle, #5ec3ff 0%, #009dff 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            margin: 0;
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
+        .form-container {
+            background-color: var(--chubby-white);
             width: 100%;
+            max-width: 500px;
+            border-radius: 40px;
+            box-shadow: 0 15px 0px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 8px solid var(--chubby-yellow);
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
+        .header {
+            background-color: var(--chubby-red);
+            color: white;
             text-align: center;
-            font-size: 28px;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .form-group {
+        .logo-area {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--chubby-blue);
+        }
+
+        .logo-text {
+            font-size: 50px;
+            color: white;
+            text-shadow: 4px 4px 0px #0056b3, -2px -2px 0px #0056b3, 2px -2px 0px #0056b3, -2px 2px 0px #0056b3;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        form {
+            padding: 30px;
+        }
+
+        .input-group {
             margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
+            color: var(--chubby-blue);
+            font-weight: bold;
+            font-size: 1.1em;
         }
 
-        input[type="text"],
-        input[type="email"],
-        textarea {
+        input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 14px;
+            padding: 12px 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            font-family: 'Varela Round', sans-serif;
+            box-sizing: border-box;
             transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
             font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        input:focus {
+            outline: none;
+            border-color: var(--chubby-blue);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        .success-message {
-            display: none;
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        .footer-action {
+            background-color: var(--chubby-green);
+            padding: 20px;
             text-align: center;
         }
 
-        .success-message.show {
-            display: block;
+        button {
+            background-color: var(--chubby-yellow);
+            color: #333;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #c4ab00;
+            transition: transform 0.1s;
+            text-transform: uppercase;
+        }
+
+        button:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #c4ab00;
+        }
+
+        .contact-info {
+            font-size: 0.8em;
+            text-align: center;
+            padding: 10px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Contact Us</h1>
-        <div id="successMessage" class="success-message">
-            Thank you! Your message has been sent successfully.
-        </div>
-        <form id="contactForm" action="https://formsubmit.co/vikeshnun@gmail.com" method="POST">
-            <div class="form-group">
-                <label for="name">Name *</label>
-                <input type="text" id="name" name="name" required>
-            </div>
 
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+<div class="form-container">
+    <div class="header">Join The Club!</div>
 
-            <div class="form-group">
-                <label for="message">Message *</label>
-                <textarea id="message" name="message" required></textarea>
-            </div>
-
-            <!-- FormSubmit.co configuration -->
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://example.com/thanks.html">
-
-            <button type="submit">Send Message</button>
-        </form>
+    <div class="logo-area">
+        <h1 class="logo-text">CHUBBY</h1>
     </div>
 
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            // Show success message
-            document.getElementById('successMessage').classList.add('show');
+    <form action="https://formsubmit.co/vikeshnun@gmail.com" method="POST">
 
-            // Optional: Clear form after submission
-            setTimeout(() => {
-                this.reset();
-                document.getElementById('successMessage').classList.remove('show');
-            }, 3000);
-        });
-    </script>
+        <div class="input-group">
+            <label>Name of School</label>
+            <input type="text" name="school_name" placeholder="School name..." required>
+        </div>
+
+        <div class="input-group">
+            <label>Name & Title of Representative</label>
+            <input type="text" name="representative" placeholder="e.g. John Doe (Principal)" required>
+        </div>
+
+        <div class="input-group">
+            <label>Address</label>
+            <input type="text" name="address" placeholder="Full school address" required>
+        </div>
+
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" placeholder="Landline number">
+        </div>
+
+        <div class="input-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" name="whatsapp" placeholder="+27..." required>
+        </div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="school@email.com" required>
+        </div>
+
+        <div class="input-group">
+            <label>Website</label>
+            <input type="url" name="website" placeholder="www.yourschool.com">
+        </div>
+
+        <div class="input-group">
+            <label>Number of Learners</label>
+            <input type="number" name="learner_count" placeholder="Total students">
+        </div>
+
+        <div class="input-group">
+            <label>Age Range</label>
+            <input type="text" name="age_range" placeholder="e.g. 5 - 13 years">
+        </div>
+
+        <div class="input-group">
+            <label>Learners with access to Tuck Shop</label>
+            <input type="number" name="tuckshop_access" placeholder="Estimated number">
+        </div>
+
+        <!-- FormSubmit configuration -->
+        <input type="hidden" name="_captcha" value="false">
+
+        <div class="footer-action">
+            <button type="submit">Submit Details</button>
+            <p style="color: white; margin-top: 10px; font-size: 0.9em;">Email or WhatsApp Us to Join</p>
+        </div>
+    </form>
+
+    <div class="contact-info">
+        www.brubecktrading.com | info@brubecktrading.com
+    </div>
+</div>
+
 </body>
 </html>
