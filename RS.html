@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS Retailers - Specials & Combos</title>
+    <style>
+        :root {
+            --primary-blue: #0047AB;
+            --accent-yellow: #FFEA00;
+            --combo-pink: #ff47b6;
+            --white: #ffffff;
+            --text-dark: #333;
+            --whatsapp-green: #25D366;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; padding: 0 0 140px 0;
+            background-color: #f4f7f6;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white; padding: 25px 15px; text-align: center;
+        }
+
+        .section-title {
+            padding: 10px 20px; font-weight: bold; color: var(--primary-blue);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Combo Styling */
+        .combo-container {
+            display: flex; overflow-x: auto; gap: 15px; padding: 15px;
+            background: #eef2f3;
+        }
+
+        .combo-card {
+            min-width: 260px; background: var(--combo-pink); color: white;
+            border-radius: 15px; padding: 15px; position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .combo-badge {
+            position: absolute; top: -10px; right: -10px;
+            background: var(--accent-yellow); color: black;
+            padding: 5px 10px; border-radius: 5px; font-weight: 900;
+        }
+
+        .container {
+            max-width: 1100px; margin: 10px auto; padding: 10px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+        }
+
+        .card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column;
+        }
+
+        .card-img { height: 160px; width: 100%; object-fit: cover; background: #eee; }
+        .card-body { padding: 15px; flex-grow: 1; }
+        .card-price { font-size: 1.4rem; color: var(--primary-blue); font-weight: 800; }
+
+        .controls {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px; background: #fafafa; border-top: 1px solid #eee;
+        }
+
+        .btn { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; padding: 10px 15px; }
+        .btn-add { background: var(--accent-yellow); color: black; }
+        .btn-rem { background: #ff4757; color: white; }
+        .btn-combo { background: white; color: var(--combo-pink); width: 100%; margin-top: 10px; }
+
+        .footer-basket {
+            position: fixed; bottom: 0; width: 100%; background: white;
+            border-top: 4px solid var(--accent-yellow); padding: 20px; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+        }
+
+        .whatsapp-btn {
+            background: var(--whatsapp-green); color: white; border: none;
+            padding: 15px 25px; border-radius: 50px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0;">RS RETAILERS</h1>
+    <p style="margin:5px 0 0; color: var(--accent-yellow);">Malvern's Best Cleaning Deals</p>
+</header>
+
+<div class="section-title">🔥 Hot Combo Deals</div>
+<div class="combo-container">
+    <div class="combo-card">
+        <div class="combo-badge">SAVE R20</div>
+        <h3>The Home Basic</h3>
+        <p>1x 5L Thick Bleach<br>1x 5L Dishwash Liquid<br>1x 18's Petal Soft</p>
+        <div style="font-size: 1.5rem; font-weight: 900;">R170</div>
+        <button class="btn btn-combo" onclick="addCombo('Home Basic', 170)">Add Combo</button>
+    </div>
+
+    <div class="combo-card" style="background: var(--primary-blue);">
+        <div class="combo-badge" style="background: var(--combo-pink); color: white;">BEST VALUE</div>
+        <h3>Bulk Paper Pack</h3>
+        <p>3x 18's Petal Soft (2Ply)</p>
+        <div style="font-size: 1.5rem; font-weight: 900;">R195</div>
+        <button class="btn btn-combo" style="color:var(--primary-blue)" onclick="addCombo('Bulk Paper Pack', 195)">Add Combo</button>
+    </div>
+</div>
+
+<div class="section-title">Individual Items</div>
+<div class="container" id="grid"></div>
+
+<div class="footer-basket">
+    <div id="summary">
+        <div style="font-size: 0.9rem; color: #666;">Items: <span id="count">0</span></div>
+        <div style="font-size: 1.8rem; font-weight: 900; color: var(--primary-blue);">R<span id="total">0</span></div>
+    </div>
+    <button class="whatsapp-btn" onclick="sendOrder()">Send WhatsApp Order</button>
+</div>
+
+<script>
+    const inventory = [
+        { id: 1, name: "Petal Soft 18's 2 Ply", price: 70, img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400" },
+        { id: 2, name: "Baby Soft 18's 2 Ply", price: 130, img: "https://images.unsplash.com/photo-1610313177695-17637849d44c?w=400" },
+        { id: 3, name: "Hand Wash 5L", price: 70, img: "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?w=400" },
+        { id: 4, name: "Dishwashing Liquid 5L", price: 55, img: "https://images.unsplash.com/photo-1603531121020-04313f8901f4?w=400" },
+        { id: 5, name: "Thick Bleach 5L", price: 65, img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400" },
+        { id: 6, name: "Extra Heavy Duty Bin Bags", price: 30, img: "https://images.unsplash.com/photo-1591193686104-fddba4d0e4d8?w=400" }
+    ];
+
+    let basket = {};
+
+    function render() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = inventory.map(p => {
+            const qty = basket[p.id] ? basket[p.id].qty : 0;
+            return `
+                <div class="card">
+                    <img src="${p.img}" class="card-img">
+                    <div class="card-body">
+                        <div class="card-title">${p.name}</div>
+                        <div class="card-price">R${p.price}</div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn btn-rem" onclick="updateItem(${p.id}, -1)">-</button>
+                        <span style="font-weight:bold">${qty}</span>
+                        <button class="btn btn-add" onclick="updateItem(${p.id}, 1)">+</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function updateItem(id, change) {
+        const p = inventory.find(x => x.id === id);
+        if (!basket[id]) {
+            if (change > 0) basket[id] = { name: p.name, price: p.price, qty: 1, type: 'item' };
+        } else {
+            basket[id].qty += change;
+            if (basket[id].qty <= 0) delete basket[id];
+        }
+        updateUI();
+    }
+
+    function addCombo(name, price) {
+        const comboId = 'combo_' + name;
+        if (!basket[comboId]) {
+            basket[comboId] = { name: "COMBO: " + name, price: price, qty: 1, type: 'combo' };
+        } else {
+            basket[comboId].qty += 1;
+        }
+        updateUI();
+    }
+
+    function updateUI() {
+        let total = 0; let count = 0;
+        for (let key in basket) {
+            total += (basket[key].price * basket[key].qty);
+            count += basket[key].qty;
+        }
+        document.getElementById('total').innerText = total;
+        document.getElementById('count').innerText = count;
+        render();
+    }
+
+    function sendOrder() {
+        if (Object.keys(basket).length === 0) return alert("Basket is empty!");
+        let msg = "Order for RS Retailers:%0a%0a";
+        let finalTotal = 0;
+        for (let key in basket) {
+            msg += `* ${basket[key].qty}x ${basket[key].name} (R${basket[key].price * basket[key].qty})%0a`;
+            finalTotal += (basket[key].price * basket[key].qty);
+        }
+        msg += `%0a*Total: R${finalTotal}*`;
+        window.open(`https://wa.me/27810438562?text=${msg}`);
+    }
+
+    render();
+</script>
+</body>
+</html>
