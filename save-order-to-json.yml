@@ -1,0 +1,38 @@
+name: Save Order to JSON
+
+on:
+  repository_dispatch:
+    types: [new-order]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update orders.json
+        run: |
+          # 1. Get the data from the HTML trigger
+          echo '${{ toJson(github.event.client_payload) }}' > new_item.json
+          
+          # 2. Append to existing orders.json (using Python for safety)
+          python3 -c "
+import json
+with open('orders.json', 'r') as f:
+    data = json.load(f)
+with open('new_item.json', 'r') as f:
+    new_item = json.load(f)
+data.append(new_item)
+with open('orders.json', 'w') as f:
+    json.dump(data, f, indent=4)
+          "
+
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add orders.json
+          git commit -m "New order added"
+          git push
